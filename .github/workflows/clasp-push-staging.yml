@@ -1,0 +1,65 @@
+name: Push isolated Apps Script source (manual only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'Type PUSH_STAGING_ONLY to replace the Apps Script editor source (does NOT redeploy)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: handyman-clasp-staging
+  cancel-in-progress: false
+
+jobs:
+  push-staging:
+    if: ${{ inputs.confirmation == 'PUSH_STAGING_ONLY' }}
+    runs-on: ubuntu-latest
+    environment: apps-script-staging
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check target settings
+        env:
+          SCRIPT_ID: ${{ vars.HANDYMAN_SCRIPT_ID }}
+          CLASP_AUTH_JSON: ${{ secrets.HANDYMAN_CLASP_AUTH_JSON }}
+        run: |
+          test -n "$SCRIPT_ID" || { echo "Missing HANDYMAN_SCRIPT_ID environment variable"; exit 1; }
+          test -n "$CLASP_AUTH_JSON" || { echo "Missing HANDYMAN_CLASP_AUTH_JSON environment secret"; exit 1; }
+      - name: Prepare clasp configuration
+        env:
+          SCRIPT_ID: ${{ vars.HANDYMAN_SCRIPT_ID }}
+          CLASP_AUTH_JSON: ${{ secrets.HANDYMAN_CLASP_AUTH_JSON }}
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          sid=os.environ['SCRIPT_ID']
+          if not sid or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-'
+                                for c in sid):
+              raise SystemExit("Invalid Script ID")
+          Path('.clasp.json').write_text(json.dumps({'scriptId':sid,'rootDir':'webapp'}))
+          path=Path(os.environ['RUNNER_TEMP'])/'.clasprc.json'
+          path.write_text(os.environ['CLASP_AUTH_JSON'])
+          path.chmod(0o600)
+          with open(path) as file: json.load(file)
+          with open(os.environ['GITHUB_ENV'],'a') as file:
+              file.write('clasp_config_auth='+str(path)+'\n')
+          PY
+      - name: Install official clasp CLI
+        run: npm install --no-save @google/clasp
+      - name: Inspect files to push
+        run: npx clasp show-file-status
+      - name: Push source to existing Apps Script project (no deployment)
+        run: npx clasp push
+      - name: Report
+        run: |
+          echo "Source push completed. Existing versioned /exec deployment NOT updated."
+          echo "Run testReadHeaders manually in Apps Script editor after checking requested Google OAuth scopes."
