@@ -127,3 +127,15 @@ Mock tests พิสูจน์ logic/protocol เท่านั้น ไม�
 ## ผลทดสอบก่อนนำขึ้น GitHub
 
 Python 13 tests และ Apps Script Mock 16 tests รวม 29/29 ผ่าน ไม่มีการข้าม tests ไม่มีการเชื่อมข้อมูลจริง Config มี Spreadsheet ID ที่ผู้ใช้ให้มา (ไม่ใช่ credential) แต่ไม่มีข้อมูลแถวลูกค้าจริง Fixtures ทั้งหมดเป็นข้อมูลจำลอง
+
+## Preferred integration: direct Sheets API
+
+The existing Apps Script API adapter remains supported. For fewer installation steps, `handyman_hermes.direct.DirectSheetsClient` reads Google Sheets directly using GET and the sole scope `https://www.googleapis.com/auth/spreadsheets.readonly`. It does not deploy Apps Script, acquire/refresh/store tokens or configure Hermes. Supply an authorized token per call through your approved provider.
+
+`docs/INSTALLATION_STATUS.md` records actual installation state and blockers. For a live-only probe (no fixture fallback), inject `HANDYMAN_SHEETS_ACCESS_TOKEN` securely into the process and run:
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python scripts/verify_live.py
+```
+
+Do not pass a token as a CLI argument or put it in Git. Probe emits counts and a result hash, not customer records. It loads the 12-field schema in memory without modifying the existing Config. An empty result or missing access fails. LIVE_READ_PASSED is distinct from verified Hermes execution on Hostinger; neither is currently established. Production activation requires separate approval.
