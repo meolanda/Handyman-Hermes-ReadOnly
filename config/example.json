@@ -1,0 +1,18 @@
+{
+  "spreadsheet_name": "สรุปยอดขาย Handyman2026",
+  "spreadsheet_id": "1tqIJGOAkQnvCmu88MdBFu3vYxvOJ4gh2URxeCUsF9_Q",
+  "sheet_name": "ข้อมูลการบริการ",
+  "header_row": 1,
+  "columns": {
+    "date": "วันที่"
+  },
+  "max_rows": 100,
+  "script_id": null,
+  "oauth_scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/spreadsheets.readonly"
+  ],
+  "data_range": "A1:AD100",
+  "range_purpose": "initial_read_test",
+  "range_is_permanent": false
+}

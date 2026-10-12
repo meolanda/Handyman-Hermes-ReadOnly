@@ -1,0 +1,8 @@
+{
+  "SPREADSHEET_ID": "1tqIJGOAkQnvCmu88MdBFu3vYxvOJ4gh2URxeCUsF9_Q",
+  "SHEET_NAME": "ข้อมูลการบริการ",
+  "HEADER_ROW": "1",
+  "DATA_RANGE": "A1:AD100",
+  "MAX_ROWS": "100",
+  "COLUMNS_JSON": "{\"date\": \"วันที่\"}"
+}

@@ -1,0 +1,32 @@
+{
+  "source": "Headers supplied by user; not independently verified in this workspace",
+  "columns": {
+    "date": "วันที่",
+    "customer": "ลูกค้า",
+    "service_item": "รายการบริการ",
+    "service_type": "ประเภทบริการ",
+    "job_status": "สถานะงาน",
+    "summary_notes": "สรุปงานและหมายเหตุ",
+    "next_actions": "งานที่ต้องทำต่อ",
+    "billing_status": "สถานะใบเก็บเงิน",
+    "quotation_no": "Quotation NO.",
+    "service_revenue": "รายได้จากการบริการ",
+    "year_month": "ปี-เดือน",
+    "job_id": "job_id"
+  },
+  "positions": {
+    "date": "A",
+    "customer": "B",
+    "service_item": "F",
+    "service_type": "G",
+    "job_status": "R",
+    "summary_notes": "S",
+    "next_actions": "T",
+    "billing_status": "U",
+    "quotation_no": "V",
+    "service_revenue": "AA",
+    "year_month": "AB",
+    "job_id": "AD"
+  },
+  "data_range": null
+}

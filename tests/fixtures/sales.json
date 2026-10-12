@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "data": [
+    {
+      "date": "09/10/2026",
+      "customer": "ลูกค้าจำลอง",
+      "service_item": "บริการจำลอง",
+      "service_type": "ประเภทจำลอง",
+      "job_status": "เสร็จแล้ว",
+      "summary_notes": "หมายเหตุจำลอง",
+      "next_actions": "ตรวจงานจำลอง",
+      "billing_status": "รอเก็บเงิน",
+      "quotation_no": "MOCK-Q-001",
+      "service_revenue": "1,250.00",
+      "year_month": "2026-10",
+      "job_id": "MOCK-JOB-001"
+    }
+  ],
+  "truncated": false
+}
