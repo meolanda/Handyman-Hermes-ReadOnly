@@ -1,18 +1,18 @@
 {
-  "source": "Headers supplied by user; not independently verified in this workspace",
+  "source": "Header row A1:AD1 verified read-only via Google Drive connector on 2026-10-12",
   "columns": {
     "date": "วันที่",
     "customer": "ลูกค้า",
     "service_item": "รายการบริการ",
     "service_type": "ประเภทบริการ",
     "job_status": "สถานะงาน",
-    "summary_notes": "สรุปงานและหมายเหตุ",
+    "summary_notes": "สรุปงานอาการเสีย และ หมายเหตุ",
     "next_actions": "งานที่ต้องทำต่อ",
     "billing_status": "สถานะใบเก็บเงิน",
     "quotation_no": "Quotation NO.",
     "service_revenue": "รายได้จากการบริการ",
     "year_month": "ปี-เดือน",
-    "job_id": "job_id"
+    "job_id": "\tjob_id"
   },
   "positions": {
     "date": "A",
