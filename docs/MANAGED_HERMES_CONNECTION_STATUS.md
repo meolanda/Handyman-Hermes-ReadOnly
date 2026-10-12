@@ -6,6 +6,7 @@ Instance: aliceblue-quetzal-360983. Existing repository, spreadsheet and Apps Sc
 
 - Existing Apps Script source push and authenticated live header validation: PASS, 12 columns, no mismatches. Public deployment remains mock-only. See WINDOWS_PUSH_REVIEW_20261012.md.
 - Local service schema and synthetic fixture reconciled with the verified S header. No spreadsheet content was edited.
+- Validation: Node 21/21 and Python 16/16 mock tests passed. Python on this Windows locale requires UTF-8 mode (`python -X utf8 -m unittest discover -s tests -v`); the initial default-encoding attempt failed decoding Thai fixture files, then passed in UTF-8 mode. No remote live read is implied by these tests.
 - Hostinger documents browser-based Managed Hermes CLI, isolated from the underlying host. This does not establish SSH support.
 - Hostinger documents dashboard Environments with masked values and staged Save & redeploy; applying changes restarts the agent. No environment values were read or changed.
 
