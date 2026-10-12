@@ -5,7 +5,6 @@ const {test} = require('node:test');
 const source = fs.readFileSync('webapp/Code.gs', 'utf8');
 const fixture = JSON.parse(fs.readFileSync('tests/fixtures/service-values.json', 'utf8'));
 const expectedHeaders = [...fixture.values[0]];
-expectedHeaders[18] = 'สรุปงานอาการเสีย และ หมายเหตุ'; // PR #2 expectation; live verification remains pending.
 function setup(values) {
   const calls = [], logs = [];
   const context = vm.createContext({
@@ -32,7 +31,8 @@ test('checks twelve headers with one bounded read and logs metadata only', () =>
   assert.deepEqual(JSON.parse(logs[0]), {status:'PASS',columnsChecked:12,mismatches:[],readRange:'A1:AD1',readonly:true});
 });
 test('empty or mismatched headers fail verification', () => {
-  assert.deepEqual(JSON.parse(JSON.stringify(setup([fixture.values[0]]).context.testReadHeaders().mismatches)), ['S']);
+  const oldHeaders = [...fixture.values[0]]; oldHeaders[18] = 'สรุปงานและหมายเหตุ';
+  assert.deepEqual(JSON.parse(JSON.stringify(setup([oldHeaders]).context.testReadHeaders().mismatches)), ['S']);
   assert.equal(setup([]).context.testReadHeaders().status, 'NEEDS_REVIEW');
   const headers = [...fixture.values[0]]; headers[0] = 'PRIVATE_VALUE';
   const {context, logs} = setup([headers]);

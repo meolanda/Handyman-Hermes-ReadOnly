@@ -1,12 +1,12 @@
 {
-  "source": "Headers supplied by user; not independently verified in this workspace",
+  "source": "All 12 expected positions verified by live testReadHeaders PASS on 2026-10-12; see docs/WINDOWS_PUSH_REVIEW_20261012.md",
   "columns": {
     "date": "วันที่",
     "customer": "ลูกค้า",
     "service_item": "รายการบริการ",
     "service_type": "ประเภทบริการ",
     "job_status": "สถานะงาน",
-    "summary_notes": "สรุปงานและหมายเหตุ",
+    "summary_notes": "สรุปงานอาการเสีย และ หมายเหตุ",
     "next_actions": "งานที่ต้องทำต่อ",
     "billing_status": "สถานะใบเก็บเงิน",
     "quotation_no": "Quotation NO.",
