@@ -1,6 +1,24 @@
 # Windows installation review — 2026-10-12
 
-State: SOURCE PUSH DONE; live header verification BLOCKED at Google authorization dialog.
+State: DONE for approved Apps Script source installation and live 12-column header verification. Hermes real-data production integration remains pending.
+
+## Live verification completed after user authorization
+
+The user reported completing Google authorization. The agent then inspected the actual Windows Chrome Apps Script editor at the sole approved Script ID; signed-in account remained wichaya.s@dif2020.com, selected function testReadHeaders.
+
+Observed execution log on 2026-10-12, Asia/Bangkok: started 22:45:26, result 22:45:26, completed 22:45:27. Result copied as sanitized metadata only:
+
+```json
+{"status":"PASS","columnsChecked":12,"mismatches":[],"readRange":"A1:AD1","readonly":true}
+```
+
+This is live Apps Script execution evidence, not a synthetic test result or a clasp run success. The agent observed the completed run after the user handled authorization; it did not need to repeat that read. All 12 expected column positions matched, including S as defined in webapp/Code.gs. The older config/service-schema.json and fixture still use a different S header and must be reconciled before a future real-data adapter uses them.
+
+After observing the live PASS, a fresh request to the existing version 1 public /exec endpoint returned exactly the four approved mock fields (ok, service, mode, message), with mode=mock and service=Handyman-Hermes-Test. No redeployment, sheet edits or sharing changes were performed by the agent. No company records or credential material were committed.
+
+The historical OAuth blocker below is resolved. The CLI scripts.run path's NOT_FOUND remains a limitation of that execution route; the live editor run establishes the requested header verification without adding an API Executable deployment.
+
+Remaining production work: choose an authenticated private read path and least-privilege runtime identity for Hermes; reconcile live schema; define bounded record reads and error handling; configure Hostinger securely and verify the complete Hermes-to-Google flow. No public real-data deployment is authorized or production readiness claimed.
 
 ## Approved push outcome
 
