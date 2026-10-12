@@ -15,9 +15,16 @@ function doGet() {
 function testReadHeaders() {
   // Uses the existing Handyman2026 document; no writes.
   const spreadsheetId = "1tqIJGOAkQnvCmu88MdBFu3vYxvOJ4gh2URxeCUsF9_Q";
-  const tab = SpreadsheetApp.openById(spreadsheetId).getSheetByName("ข้อมูลการบริการ");
-  if (!tab) throw new Error("SHEET_NOT_FOUND");
-  const headers = tab.getRange("A1:AD1").getDisplayValues()[0];
+  let response;
+  try {
+    response = Sheets.Spreadsheets.Values.get(spreadsheetId, "'ข้อมูลการบริการ'!A1:AD1", {
+      valueRenderOption: "FORMATTED_VALUE", majorDimension: "ROWS"
+    });
+  } catch (_) {
+    // Do not expose upstream errors, identifiers, or cell contents in logs.
+    throw new Error("HEADER_READ_FAILED");
+  }
+  const headers = (response.values || [])[0] || [];
   const normalize = value => String(value == null ? "" : value).replace(/\s+/g, " ").trim();
   const expected = {
     A: "วันที่", B: "ลูกค้า", F: "รายการบริการ", G: "ประเภทบริการ",
