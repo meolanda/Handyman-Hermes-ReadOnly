@@ -1,6 +1,20 @@
 # Windows installation review — 2026-10-12
 
-State: PREPARED; Apps Script push awaits explicit user approval. No live header execution has occurred.
+State: SOURCE PUSH DONE; live header verification BLOCKED at Google authorization dialog.
+
+## Approved push outcome
+
+- User explicitly approved source push and OAuth limited to spreadsheets.readonly in this chat.
+- Immediately before push, remote baseline was pulled again and the backup hash still matched. Manifest remained unchanged from the inspected baseline.
+- clasp push --force returned Pushed 2 files: appsscript.json and Code.gs, for the sole approved Script ID. No deployment command was run.
+- Independent pull into ignored remote-after/ returned exactly appsscript.json and Code.js (clasp's local extension normalization). Source comparison ignoring line endings passed; parsed manifest comparison passed.
+- Deployment listing after push remained HEAD and version 1, with the same deployment IDs. Public version 1 endpoint was probed again and returned mode=mock, service=Handyman-Hermes-Test.
+- clasp run testReadHeaders returned a storage NOT_FOUND exception, despite shell exit code 0. This is NOT evidence of successful execution or live header validation. No API Executable deployment was created to work around this.
+- The actual Windows Chrome editor was opened to the exact approved Script ID. Title: Handyman-Hermes-ReadOnly. Signed-in UI account matched wichaya.s@dif2020.com; Sheets service and uploaded Code.gs were visible.
+- testReadHeaders was selected and Run clicked. Google displayed its authorization-required dialog. No live PASS, count result or mismatches have been produced. No permission was granted by the agent.
+- Windows computer-use instructions prohibit automation of user authentication dialogs and security/privacy permission requests; the dialog was left for the user to complete. No credentials or token material was read, output or committed.
+
+Next user action: in the existing Chrome editor dialog, review authorization using the intended account and allow only Sheets read-only if that is the sole requested data scope. Stop if broader access, administrator intervention or security bypass is requested. Then rerun testReadHeaders and retain only sanitized result metadata. Hermes real-data integration remains pending and production readiness is not claimed.
 
 ## Verified target and baseline
 
