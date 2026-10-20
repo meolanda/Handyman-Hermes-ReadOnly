@@ -1,5 +1,7 @@
 # Resume Handyman–Hermes integration
 
+Latest support result (2026-10-20, message 11:19 reviewed by Marijus): Managed Hermes has no outbound Google WIF and no supported credential-file import/custom path with backup exclusions. Supported secrets surface is Environments; runtime/CLI access and daily backup exposure must be accepted explicitly before any credential provisioning. No key, restart or migration approved. See HOSTINGER_SUPPORT_20261020.md for the received answer. Prior private-file setup proposal is NOT supported by this managed product per Support.
+
 Support follow-up 2026-10-20: user authorized sending the prepared question. Submitted in hPanel, requested human review and submitted technical context. UI shows Marijus is reviewing your request; no case ID or final technical answer yet. Retained hPanel browser tab. See HOSTINGER_SUPPORT_20261020.md. No credential or configuration actions authorized/performed by this inquiry.
 
 Latest setup: 2026-10-20 — CLI is working again. Existing remote adapter updated to 1c45036. Default credential-free preflight installed and returned CREDENTIAL_NOT_PROVISIONED, tokenIssued=false, liveReadAttempted=false. Hostinger Python tests passed 22/22. See HOSTINGER_PREFLIGHT_SETUP_20261020.md. Credential provisioning and activation still require the previously specified method/storage review and approval.
