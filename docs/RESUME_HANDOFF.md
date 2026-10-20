@@ -2,6 +2,8 @@
 
 ## Current verified state — 2026-10-20
 
+Offline follow-up: analysis.py now prepares callback pagination, normalized header mapping, date-sorted masked job results and Decimal monthly totals with explicit statuses and skip counts. All 34 Python tests pass in UTF-8 mode. See PYTHON_QUERY_PREPARATION.md for activation gates and privacy limitations. This code has not been installed or activated on Hostinger; no record reads or Telegram sends occurred. Do not infer real-data authorization from offline preparation approval.
+
 This update supersedes the historical blockers and unapproved-credential statements below. The user explicitly approved the existing service-account key, private Hostinger Environments entry, apply/restart and header-only live probe. The user completed credential entry. Hostinger CLI now returned PASS, columnsChecked=12, mismatches=[], readRange=A1:AD1, readonly=true against the real spreadsheet. See HOSTINGER_LIVE_HEADER_PASS_20261020.md for exact sanitized evidence. No business-record read, Hermes query registration, Telegram delivery or schedule is active. Next agree the business-query/data-delivery scope and validate the Python privacy/aggregation layer before activation. Do not repeat credential creation or restart on resume.
 
 
