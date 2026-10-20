@@ -171,14 +171,22 @@ def main():
     args = parser.parse_args()
     if args.month and not re.fullmatch(r'\d{4}-(?:0[1-9]|1[0-2])', args.month):
         parser.error('Invalid month')
-    stage = 'credentials'
+    stage = 'runtime_dependencies'
     try:
         from google.oauth2 import service_account
         from google.auth.transport.requests import AuthorizedSession
+        stage = 'credential_presence'
+        from hostinger_readiness import credential_status
+        if credential_status() != 'CREDENTIAL_PRESENT_REQUIRES_APPROVED_LIVE_CHECK':
+            raise AnalysisError('Credential not present in query runtime')
+        stage = 'credential_parse'
+        info = approved_credential_info()
+        stage = 'credential_load'
         credentials = service_account.Credentials.from_service_account_info(
-            approved_credential_info(), scopes=[SCOPE])
+            info, scopes=[SCOPE])
         if credentials.service_account_email != ACCOUNT:
             raise AnalysisError('Identity mismatch')
+        stage = 'schema'
         schema = json.loads((ROOT / 'config/service-schema.json').read_text(encoding='utf-8'))
         stage = 'read'
         with AuthorizedSession(credentials) as session:
@@ -199,7 +207,8 @@ def main():
                         'Duplicate job IDs', 'Source changed between reads',
                         'Read failed', 'Response too large', 'Recipient configuration changed',
                         'Recipient verification failed', 'Private recipient required',
-                        'Pinned private recipient required', 'Delivery failed; do not retry blindly'}
+                        'Pinned private recipient required', 'Delivery failed; do not retry blindly',
+                        'Credential not present in query runtime'}
         reason = str(error) if isinstance(error, AnalysisError) and str(error) in safe_reasons else 'QUERY_OR_DELIVERY_FAILED'
         print(json.dumps({'status': 'BLOCKED', 'reason': reason, 'stage': stage}))
         return 2
