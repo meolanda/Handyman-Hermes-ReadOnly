@@ -2,6 +2,14 @@
 
 Prepared 2026-10-20. User selected retaining Managed Hermes and asked to prepare setup. This document does NOT record approval to create, download, import or use a key yet.
 
+## Approval received and access blocker
+
+User subsequently explicitly approved: one key for the existing account, Environments storage and redeploy for header testing. This supersedes the preparation-only approval state above. Do not ask for the same approval again unless scope changes. Secret entry remains user-handled; no permission granted for unrelated IAM/ACL changes, record reads or public deployment.
+
+Attempted approved execution: Google Cloud Service Accounts page for project handyman-hermes-reader returned You need additional access / no permission to view service accounts; missing iam.serviceAccounts.list and resourcemanager.projects.get. Current browser identity could not be independently confirmed. Do not infer account deletion or create a replacement; user must select/sign into an existing account with legitimate project access. No IAM grant/request or key creation attempted.
+
+Hostinger hPanel initially displayed the existing instance Running, but navigating Manage redirected to auth.hostinger.com login. User must reauthenticate directly; no password entry or secret capture by the agent. Both Cloud and Hostinger tabs retained for handoff. No key created, downloaded or imported; no redeploy/token issuance/live test performed. Approval persists while these access blockers are resolved.
+
 Preparation evidence: code commit 4f2bdd9 installed by clean fast-forward in the existing Hostinger checkout. Python mock tests passed 26/26 on Windows and Hostinger. No credentials entered, token issued, live probe run or managed redeploy performed during this preparation. These tests do not validate a real key or Environments propagation.
 
 ## Exact proposed change
