@@ -2,6 +2,8 @@
 
 ## Current verified state — 2026-10-20
 
+LATEST DUPLICATE AUDIT: User authorized read-only follow-up. Two selected-field scans matched: 5,199 nonempty selected-field rows, 4,035 blank job IDs, 137 duplicate-ID groups (690 rows). 66 groups have equal date/status/revenue strings; 71 differ in revenue strings. Neither finding establishes full-row duplication or legitimate line-item semantics. No automatic deduplication or delivery. See DUPLICATE_AUDIT_20261020.md. Source-owner rules for row versus job counting and blank IDs are required before activation.
+
 LATEST ACTIVATION RESULT: User approved exact statuses (pending ไม่จบ, revenue จบ) and delivery to their existing private Telegram chat. Query reader installed on Hostinger at bc9c216; 39 offline tests passed there. Live record read STOPPED with allowlisted reason Duplicate job IDs at read stage. No two-scan complete-data PASS, Telegram delivery or skill activation. Do not repeat approval for the existing authorized scope; next obtain the duplicate-job business rule or source-owner correction. Do not silently deduplicate or edit Sheets. See ACTIVATION_CHECK_20261020.md. No private recipient pin was created.
 
 Offline follow-up: analysis.py now prepares callback pagination, normalized header mapping, date-sorted masked job results and Decimal monthly totals with explicit statuses and skip counts. All 34 Python tests pass in UTF-8 mode. See PYTHON_QUERY_PREPARATION.md for activation gates and privacy limitations. This code has not been installed or activated on Hostinger; no record reads or Telegram sends occurred. Do not infer real-data authorization from offline preparation approval.
