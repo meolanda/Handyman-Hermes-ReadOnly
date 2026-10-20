@@ -32,6 +32,19 @@ class QueryTests(unittest.TestCase):
         self.assertIn('ต้องตรวจสอบ', report)
         self.assertNotIn('0.00', report)
 
+    def test_owner_rule_sums_repeated_and_blank_ids(self):
+        rows = [dict(date='2026-09-01', job_status='จบ', job_id=job, service_revenue=amount)
+                for job, amount in [('JB20260930072756-646','10.10'),
+                                    ('JB20260930072756-646','20.20'), ('','30.30')]]
+        report = q.report_text(rows, 'revenue', '2026-09')
+        self.assertIn('60.60', report)
+        for row in rows:
+            row['job_status'] = 'ไม่จบ'
+        pending = q.report_text(rows, 'pending', '2026-09')
+        self.assertIn('3 แถว', pending)
+        self.assertIn('เฉพาะที่มีรหัส): 1', pending)
+        self.assertIn('รายการค้างที่ไม่มีรหัส: 1', pending)
+
     def test_two_reads_must_match(self):
         with patch.object(q, 'scan', side_effect=[[{'x':'1'}], [{'x':'2'}]]):
             with self.assertRaises(q.AnalysisError):

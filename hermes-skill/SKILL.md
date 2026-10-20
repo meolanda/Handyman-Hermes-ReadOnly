@@ -7,6 +7,8 @@ Use only when the owner explicitly asks for Handyman pending jobs or monthly rev
 
 Pending jobs means status ไม่จบ. Completed-job revenue means status จบ, service_revenue column AA, grouped by dates in A. Do not calculate totals yourself. Missing/invalid dates and money require review; do not claim incomplete totals are final. Only job identifiers, dates and counts are included in pending reports; no customer names, phones or free-text notes.
 
+Owner-confirmed rule: one job may have multiple service rows. Include every row's revenue, including repeated job IDs and blank IDs. Pending reports count service rows, separately show distinct nonblank job IDs and missing-ID row counts; never call the row count a distinct-job count. Data source is only Handyman2026 tab ข้อมูลการบริการ. Other tabs/Calendar/Drive are not connected by this skill.
+
 Run the fixed local script, without printing environment variables or accessing credentials yourself:
 
 ```text

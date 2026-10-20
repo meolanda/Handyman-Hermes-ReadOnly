@@ -78,9 +78,8 @@ def scan(get, schema, *, inspect_duplicates=False):
                 records.append(row)
     if grid_bound(get) != bound:
         raise AnalysisError('Source changed')
-    ids = [row['job_id'].strip() for row in records if row['job_id'].strip()]
-    if not inspect_duplicates and len(set(ids)) != len(ids):
-        raise AnalysisError('Duplicate job IDs')
+    # Owner confirmed each row is a service line; repeated/blank IDs are valid.
+    # Retain all rows for monetary totals. Never silently deduplicate.
     return records
 
 
@@ -102,9 +101,12 @@ def report_text(records, query, month):
         # Drop all free text and amounts before constructing any model-facing data.
         safe = [{key: row[key] for key in ('date', 'job_status', 'job_id')} for row in records]
         result = latest_jobs(safe, statuses={'ไม่จบ'}, limit=10)
-        lines += ['งานค้าง = สถานะ ไม่จบ: ' + str(result['matchedRows']),
+        pending = [row for row in safe if row['job_status'].strip() == 'ไม่จบ']
+        lines += ['รายการบริการค้าง = สถานะ ไม่จบ: ' + str(result['matchedRows']) + ' แถว',
+                  'รหัสงานค้างที่ไม่ซ้ำ (เฉพาะที่มีรหัส): ' + str(len({row['job_id'].strip() for row in pending if row['job_id'].strip()})),
+                  'รายการค้างที่ไม่มีรหัส: ' + str(sum(not row['job_id'].strip() for row in pending)),
                   'วันที่อ่านไม่ได้/ว่าง: ' + str(result['invalidDateRows']),
-                  'แสดงล่าสุดตามวันที่สูงสุด 10 งาน:']
+                  'แสดงรายการล่าสุดตามวันที่สูงสุด 10 แถว (รหัสงานอาจซ้ำ):']
         from handyman_hermes.analysis import parse_date
         for row in result['records']:
             job = row['job_id'].strip()
@@ -119,6 +121,7 @@ def report_text(records, query, month):
                       'ไม่แสดงยอดรวมที่อาจไม่ครบ']
         else:
             lines += ['รายได้ = สถานะ จบ; วันที่จากคอลัมน์ A; เงินจาก AA',
+                      'รวมทุกแถว รวมรหัสซ้ำและแถวไม่มีรหัส ตามกฎที่เจ้าของยืนยัน',
                       'เดือน: ' + month,
                       ('ยอดรวมที่นับได้ (ยังไม่สมบูรณ์): ' if not result['completeForSelectedStatuses']
                        else 'ยอดรวม: ') + result['total'] + ' บาท',
