@@ -26,3 +26,11 @@ Official FlowAccount documentation publishes https://mcp.flowaccount.com/mcp wit
 Hermes docs describe native OAuth with loopback callback and cached tokens at its home mcp-tokens directory (mode 0600). A managed remote callback and acceptable secret storage must be verified before OAuth is started. No localhost tunnel, SSH, public callback service, copied Codex token or manual token transfer is authorized here. Until callback/storage and read access are reviewable, do not request broad FlowAccount authorization.
 
 Sources checked: [FlowAccount official connector](https://flowaccount.com/help-center/category/ai-connector-mcp/flowaccount-connector-in-claude), [Hermes MCP](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp), [Calendar scopes](https://developers.google.com/workspace/calendar/api/auth), [Drive scopes](https://developers.google.com/workspace/drive/api/guides/api-specific-auth).
+
+## Authentication compatibility checks actually performed
+
+Installed Hermes help was read through the actual WebUI terminal tool, with --help only. mcp login advertises browser/PKCE and device/RFC8628 flows; mcp add help did not expose callback/storage options. No login/add operation was started.
+
+Unauthenticated public discovery requests from Windows (not a live Hermes authentication test) returned HTTP 401 at the official FlowAccount MCP endpoint and pointed to https://mcp.flowaccount.com/.well-known/oauth-protected-resource/mcp. That public resource metadata named https://mcp.flowaccount.com as authorization server. Its public authorization-server metadata advertised authorization_code and refresh_token, PKCE S256 and scopes openid/profile/flowaccount-api/offline_access. No device_authorization_endpoint was advertised. This does not prove device flow can never be supported, but no supported device path was established, and flowaccount-api is not a demonstrated read-only scope. No registration/token/authorization endpoint was called and no client or token was created.
+
+The Google resource-sharing proposal is concrete and can be approved independently. FlowAccount authentication/enablement is excluded from that approval until its managed callback, storage and residual provider permissions are reviewed; do not infer authority to provision a broad token from approval to read Google work resources.
