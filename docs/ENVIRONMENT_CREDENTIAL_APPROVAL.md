@@ -2,6 +2,8 @@
 
 Prepared 2026-10-20. User selected retaining Managed Hermes and asked to prepare setup. This document does NOT record approval to create, download, import or use a key yet.
 
+Preparation evidence: code commit 4f2bdd9 installed by clean fast-forward in the existing Hostinger checkout. Python mock tests passed 26/26 on Windows and Hostinger. No credentials entered, token issued, live probe run or managed redeploy performed during this preparation. These tests do not validate a real key or Environments propagation.
+
 ## Exact proposed change
 
 Use only existing service account handyman-hermes-reader@handyman-hermes-reader.iam.gserviceaccount.com in existing project handyman-hermes-reader (verify Cloud Console ID before creation). Independently review its IAM roles and existing spreadsheet sharing before provisioning; stop if broader access than intended is found. No new service account/project, domain delegation, sheet copy, sheet edits or public endpoint.
