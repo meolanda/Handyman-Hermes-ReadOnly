@@ -1,5 +1,7 @@
 # Managed Hermes connection review — 2026-10-12
 
+> HISTORICAL INITIAL INSPECTION ONLY. Its missing-credential/not-connected blockers were resolved on 2026-10-20. Read CURRENT_STATUS.md for current facts: live Sheets and private Telegram delivery verified; Calendar/Drive/FlowAccount remain unverified. Do not use the historical BLOCKED section below as today's status.
+
 Instance: aliceblue-quetzal-360983. Existing repository, spreadsheet and Apps Script are retained. No new project created.
 
 ## DONE

@@ -1,8 +1,14 @@
 # Handyman-Hermes-ReadOnly
 
-โครงการอ่านชีตที่มีอยู่แล้ว **สรุปยอดขาย Handyman2026** ด้วย Apps Script API Executable (`scripts.run`) และ Python Client สำหรับเรียกจาก Hermes ภายหลัง ไม่มี Web App `doGet`/`doPost` หรือ public endpoint
+## สถานะปัจจุบัน — 20 ตุลาคม 2026
 
-งานนี้เปลี่ยนเฉพาะไฟล์ใน checkout นี้ ไม่มีการสร้าง OAuth Credentials/Refresh Token, Deploy, เชื่อมชีตจริง, แก้ Handyman Web App เดิม, แก้ Config ของ Hermes หรือติดตั้ง/เปิดใช้ Google Workspace Skill เดิม
+อ่าน [สถานะหลัก](docs/CURRENT_STATUS.md) ก่อนประเมินระบบ: ตัวอ่าน Google Sheets จริงบน Hostinger ผ่านการทดสอบแล้ว ติดตั้ง skill ให้ Hermes และพิสูจน์การส่งรายงานเข้า Telegram ส่วนตัวแล้ว ใช้ Direct Sheets API กับ service account เดิมและ scope spreadsheets.readonly ไม่ใช้ public Web App อ่านข้อมูลบริษัท
+
+ขอบเขตปัจจุบันยังจำกัดแท็บ ข้อมูลการบริการ และรายงานสี่คอลัมน์ ยังไม่ได้เชื่อม Calendar / Drive / FlowAccount ให้ตรวจงานครบชุด ห้ามถือว่าผ่านการใช้งานจริงทั้งหมด ดู [หลักฐานการแก้ runtime และผล SENT](docs/HERMES_RUNTIME_FIX_20261020.md)
+
+## เอกสารโครงสร้างเริ่มต้น (ประวัติ ไม่ใช่สถานะการติดตั้งปัจจุบัน)
+
+ส่วนด้านล่างอธิบาย scaffold Apps Script API Executable และ client รุ่นเริ่มต้น ข้อความ “ยังไม่ได้เชื่อม/ยังไม่ deploy” ในขั้นตอนนั้นไม่ลบล้างหลักฐานปัจจุบัน ส่วน webapp/ มี doGet mock-only เดิมและไม่เปิดข้อมูลบริษัท
 
 ## ไฟล์และ protocol
 
