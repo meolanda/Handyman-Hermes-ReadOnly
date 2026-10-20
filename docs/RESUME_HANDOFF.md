@@ -29,7 +29,7 @@ Use the existing project/account/credential only. Sheets reads and reports to th
 
 ## Next work
 
-1. Propagate the status cleanup to Hostinger and the installed skill, then have Hermes read CURRENT_STATUS.md before making connection claims.
+1. Status cleanup is propagated to Hostinger and the installed skill; reference check true, SAFE/ALLOWED, enabled. See STATUS_CLEANUP_VERIFIED_20261020.md. Do not repeat this setup without evidence of regression.
 2. Inspect existing integration metadata without secret values. Review CONNECTION_EXTENSION_REVIEW_20261020.md for researched paths and unresolved access/permission questions.
 3. Prepare one daily-job review using actual approved sources; separate verified source facts, missing evidence and drafts. Existing read-only code is not full daily-job-review capability.
 4. Get one concrete approval bundle before new Calendar/Drive/FlowAccount permissions or credential provisioning. Do not create projects/accounts, copy Codex tokens, assume SSH, or bypass a login/filter.

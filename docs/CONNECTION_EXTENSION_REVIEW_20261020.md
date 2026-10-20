@@ -4,7 +4,7 @@
 
 Reviewed the existing repository, current runtime/delivery evidence, Hostinger's previously received human support answer, and official Hermes/Google/FlowAccount documentation. No new credential was created, token minted for another scope, permission changed, connector installed or source data read in this review.
 
-An attempted current Hostinger CLI inspection reached the login screen, so a fresh runtime configuration inventory is NOT complete. The old observation of no gws/gcloud/no MCP is dated 2026-10-12 and must not be presented as today's inventory. Codex has separate Google/FlowAccount connector capabilities; their presence is not evidence of Hostinger Hermes authentication, and their tokens must not be copied to Hermes.
+The direct CLI reached a login screen, but the existing authenticated WebUI session remained usable. Hermes then updated its clean checkout to afcf504 and ran connection_inventory.py through its terminal tool. Current metadata was observed: mcpServerEntries=0, mcpConfigSectionPresent=false, gwsOnPath=false, gcloudOnPath=false, googleWorkspaceSkillAtBundledPath=true, flowNamedEnvironmentEntries=0, sheetsCredentialPresentInProcess=true. No credential values were printed and this inventory made zero network calls. These observations do not rule out undocumented connections or prove live access to Calendar/Drive/FlowAccount. Codex has separate Google/FlowAccount connector capabilities; their presence is not evidence of Hostinger Hermes authentication, and their tokens must not be copied to Hermes.
 
 ## Google Calendar and Drive
 
