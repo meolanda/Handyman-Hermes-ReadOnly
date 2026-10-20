@@ -1,5 +1,7 @@
 # Resume Handyman–Hermes integration
 
+Latest resumed inspection: 2026-10-20 — see RESUME_CHECK_20261020.md. WebUI opens, but Gateway/MCP status remains Loading and browser CLI shows no prompt after one reload; no remote command executed. No credentials or configuration changed. Next restore supported dashboard/CLI access and obtain Hostinger authentication/storage capability confirmation.
+
 Saved at user's request on 2026-10-12 (Asia/Bangkok). Work stops here until the user returns. No automation or background monitoring requested.
 
 ## Locations and identities
