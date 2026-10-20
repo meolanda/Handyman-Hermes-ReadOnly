@@ -4,6 +4,10 @@ Prepared 2026-10-20. User selected retaining Managed Hermes and asked to prepare
 
 ## Approval received and access blocker
 
+Follow-up after user reported both logins complete: Google Cloud correctly displayed wichaya.s@dif2020.com, project handyman-hermes-reader / Handyman-Hermes-Reader, and existing enabled service account ID 112303201181580893473 with No keys. Project IAM view displayed only the user's Owner / inherited Organization Administrator entries; no service-account project role grant was shown. This is not an organization-wide permissions or Sheets ACL audit. The account Details/Permissions page initially loaded, but a later load of its Details page failed with Google's Failed to load message; one Retry failed too. No key created/downloaded.
+
+Hostinger list page showed Unauthorized and Unauthenticated notifications even after the user's reported login. One reload redirected to Hostinger login. This is a session/access failure, not evidence that the instance or credentials were deleted. No Environments access, secret entry or redeploy occurred. Next restore stable authenticated page access; existing creation/import/redeploy/header-test approval persists.
+
 User subsequently explicitly approved: one key for the existing account, Environments storage and redeploy for header testing. This supersedes the preparation-only approval state above. Do not ask for the same approval again unless scope changes. Secret entry remains user-handled; no permission granted for unrelated IAM/ACL changes, record reads or public deployment.
 
 Attempted approved execution: Google Cloud Service Accounts page for project handyman-hermes-reader returned You need additional access / no permission to view service accounts; missing iam.serviceAccounts.list and resourcemanager.projects.get. Current browser identity could not be independently confirmed. Do not infer account deletion or create a replacement; user must select/sign into an existing account with legitimate project access. No IAM grant/request or key creation attempted.
