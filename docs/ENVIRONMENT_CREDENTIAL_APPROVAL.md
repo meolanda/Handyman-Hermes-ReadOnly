@@ -20,6 +20,10 @@ Hostinger hPanel initially displayed the existing instance Running, but navigati
 
 Preparation evidence: code commit 4f2bdd9 installed by clean fast-forward in the existing Hostinger checkout. Python mock tests passed 26/26 on Windows and Hostinger. No credentials entered, token issued, live probe run or managed redeploy performed during this preparation. These tests do not validate a real key or Environments propagation.
 
+## Verified completion — 2026-10-20
+
+User approval was received and the user privately created/entered the existing account's JSON key. Apply changes was submitted. Hostinger credential presence was confirmed without revealing its value, and the approved header-only live test returned PASS for all 12 selected columns, with no mismatches. See HOSTINGER_LIVE_HEADER_PASS_20261020.md. Historical proposal language below is retained for the storage/risk/revocation record; it does not mean approval or the header test is still pending. Business-record reads and Telegram activation remain pending.
+
 ## Exact proposed change
 
 Use only existing service account handyman-hermes-reader@handyman-hermes-reader.iam.gserviceaccount.com in existing project handyman-hermes-reader (verify Cloud Console ID before creation). Independently review its IAM roles and existing spreadsheet sharing before provisioning; stop if broader access than intended is found. No new service account/project, domain delegation, sheet copy, sheet edits or public endpoint.

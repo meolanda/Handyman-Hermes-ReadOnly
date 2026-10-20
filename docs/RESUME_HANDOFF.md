@@ -1,5 +1,10 @@
 # Resume Handyman–Hermes integration
 
+## Current verified state — 2026-10-20
+
+This update supersedes the historical blockers and unapproved-credential statements below. The user explicitly approved the existing service-account key, private Hostinger Environments entry, apply/restart and header-only live probe. The user completed credential entry. Hostinger CLI now returned PASS, columnsChecked=12, mismatches=[], readRange=A1:AD1, readonly=true against the real spreadsheet. See HOSTINGER_LIVE_HEADER_PASS_20261020.md for exact sanitized evidence. No business-record read, Hermes query registration, Telegram delivery or schedule is active. Next agree the business-query/data-delivery scope and validate the Python privacy/aggregation layer before activation. Do not repeat credential creation or restart on resume.
+
+
 Latest support result (2026-10-20, message 11:19 reviewed by Marijus): Managed Hermes has no outbound Google WIF and no supported credential-file import/custom path with backup exclusions. Supported secrets surface is Environments; runtime/CLI access and daily backup exposure must be accepted explicitly before any credential provisioning. No key, restart or migration approved. See HOSTINGER_SUPPORT_20261020.md for the received answer. Prior private-file setup proposal is NOT supported by this managed product per Support.
 
 Support follow-up 2026-10-20: user authorized sending the prepared question. Submitted in hPanel, requested human review and submitted technical context. UI shows Marijus is reviewing your request; no case ID or final technical answer yet. Retained hPanel browser tab. See HOSTINGER_SUPPORT_20261020.md. No credential or configuration actions authorized/performed by this inquiry.
