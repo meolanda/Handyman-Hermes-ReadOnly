@@ -1,5 +1,7 @@
 # Resume Handyman–Hermes integration
 
+Support follow-up 2026-10-20: user authorized sending the prepared question. Submitted in hPanel, requested human review and submitted technical context. UI shows Marijus is reviewing your request; no case ID or final technical answer yet. Retained hPanel browser tab. See HOSTINGER_SUPPORT_20261020.md. No credential or configuration actions authorized/performed by this inquiry.
+
 Latest setup: 2026-10-20 — CLI is working again. Existing remote adapter updated to 1c45036. Default credential-free preflight installed and returned CREDENTIAL_NOT_PROVISIONED, tokenIssued=false, liveReadAttempted=false. Hostinger Python tests passed 22/22. See HOSTINGER_PREFLIGHT_SETUP_20261020.md. Credential provisioning and activation still require the previously specified method/storage review and approval.
 
 Latest resumed inspection: 2026-10-20 — see RESUME_CHECK_20261020.md. WebUI opens, but Gateway/MCP status remains Loading and browser CLI shows no prompt after one reload; no remote command executed. No credentials or configuration changed. Next restore supported dashboard/CLI access and obtain Hostinger authentication/storage capability confirmation.
