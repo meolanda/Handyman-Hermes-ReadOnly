@@ -7,3 +7,5 @@ config/local.json
 .clasp.json
 remote-before/
 remote-after/
+config/connection-scope.local.json
+docs/CONNECTION_APPROVAL_PRIVATE.local.md

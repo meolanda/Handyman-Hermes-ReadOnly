@@ -25,6 +25,8 @@ Before one approval bundle can be concrete: inspect installed runtime integratio
 
 ## FlowAccount
 
+Follow-up discovery: official FlowAccount publishes https://mcp.flowaccount.com/mcp with OAuth. See RESOURCE_SCOPE_PREPARATION_20261020.md. This supersedes the earlier statement that no remote endpoint had been verified; compatibility, authentication and provider read-only restrictions remain unverified. No token is transferred from the Codex connector.
+
 Official OpenAPI supports Client Credentials and OpenID flows. Client Credentials requires the application's client ID/secret and issues access tokens; use the production versus test endpoint deliberately. The official material reviewed does NOT establish that the resulting credential can be restricted by the provider to quotation-read-only. Do not claim a GET-only adapter makes a broad account token read-only at the provider.
 
 Sources: [FlowAccount connection overview](https://developers.flowaccount.com/tutorial/connect-open-api), [Client Credentials](https://developers.flowaccount.com/tutorial/connect/client-credentials-flow/), [OpenID](https://developers.flowaccount.com/tutorial/connect/open-id-flow), [API reference](https://developers.flowaccount.com/api-reference/).

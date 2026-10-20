@@ -29,6 +29,8 @@ Use the existing project/account/credential only. Sheets reads and reports to th
 
 ## Next work
 
+Scope preparation follow-up: discovered actual work calendars (17 selected) and exact 15 October job folder through existing Codex connectors. Exact resources are local ignored files, not Git. No Google access expansion is approved/applied. FlowAccount official remote MCP endpoint is now identified, but Managed OAuth callback/storage and provider permission constraints remain unresolved. Read RESOURCE_SCOPE_PREPARATION_20261020.md before asking for any approval; do not repeat source-name questions already resolved by metadata discovery.
+
 1. Status cleanup is propagated to Hostinger and the installed skill; reference check true, SAFE/ALLOWED, enabled. See STATUS_CLEANUP_VERIFIED_20261020.md. Do not repeat this setup without evidence of regression.
 2. Inspect existing integration metadata without secret values. Review CONNECTION_EXTENSION_REVIEW_20261020.md for researched paths and unresolved access/permission questions.
 3. Prepare one daily-job review using actual approved sources; separate verified source facts, missing evidence and drafts. Existing read-only code is not full daily-job-review capability.
