@@ -1,5 +1,23 @@
 # Hermes runtime failure repaired — 2026-10-20
 
+## Follow-up: legacy command compatibility verified
+
+Owner's next Telegram invocation still failed at runtime_dependencies, consistent with continued use of the legacy generic-python command. Updating skill text alone was insufficient. Commit c491a83 adds an entry-point runtime selection: when running outside /opt/venv on POSIX and the fixed installed interpreter exists, os.execv restarts this same script with the same arguments and environment under /opt/venv/bin/python3 before Google-library imports. No shell, secret retrieval/copy, dependency installation or security-filter bypass is used. sys.prefix prevents restart loops despite shared interpreter symlinks. Windows and Hostinger suites each pass 44 tests.
+
+Installed on the existing Hostinger checkout, then explicitly tested by Hermes WebUI terminal tool with the EXACT legacy command (not substituting an absolute Python path):
+
+```text
+python3 /data/workspace/handyman/readonly-adapter/scripts/hermes_queries.py --query pending --send
+```
+
+Visible real terminal-tool output:
+
+```json
+{"status":"SENT","query":"pending","rowsChecked":5217,"matchingReads":2,"readonly":true}
+```
+
+This repairs the generic-python command used by older sessions and verifies one new private report accepted by Telegram. The owner's subsequent incoming Telegram request remains a separate user-facing check; do not claim that was observed. No credentials, recipient, scopes or source data changed.
+
 ## Reported failure
 
 Owner's incoming Telegram invocation selected the skill but returned BLOCKED at the old combined credentials stage with QUERY_OR_DELIVERY_FAILED. That error alone did not establish a bad key, and no automatic send retry was attempted.
