@@ -2,6 +2,7 @@ import contextlib
 import importlib.util
 import io
 import json
+import os
 import unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -12,6 +13,40 @@ spec.loader.exec_module(module)
 
 
 class ReadinessTests(unittest.TestCase):
+    def info(self):
+        # Deliberately invalid synthetic key, never a usable credential.
+        return {'type':'service_account','client_email':module.ACCOUNT,
+                'project_id':'handyman-hermes-reader',
+                'token_uri':'https://oauth2.googleapis.com/token',
+                'private_key':'-----BEGIN PRIVATE KEY-----SYNTHETIC_NOT_A_KEY'}
+
+    def test_default_presence_does_not_parse_or_print_secret(self):
+        output = io.StringIO()
+        with patch.dict(os.environ, {module.ENVIRONMENT_KEY:'PRIVATE_SENTINEL'}), patch.object(module, 'approved_credential_info') as loader, contextlib.redirect_stdout(output):
+            self.assertEqual(module.main([]), 2)
+        loader.assert_not_called()
+        self.assertNotIn('PRIVATE_SENTINEL', output.getvalue())
+
+    def test_rejects_wrong_identity_scope_source_and_endpoint(self):
+        for key, value in [('type','external_account'), ('client_email','other@example.com'),
+                           ('project_id','other'), ('token_uri','https://example.com/token'),
+                           ('universe_domain','example.com')]:
+            info = self.info(); info[key] = value
+            with patch.dict(os.environ, {module.ENVIRONMENT_KEY:json.dumps(info)}):
+                with self.assertRaises(ValueError):
+                    module.approved_credential_info()
+
+    def test_allowlists_forwarded_fields(self):
+        info = self.info(); info['credential_source'] = {'executable': 'DO_NOT_RUN'}
+        with patch.dict(os.environ, {module.ENVIRONMENT_KEY:json.dumps(info)}):
+            self.assertNotIn('credential_source', module.approved_credential_info())
+
+    def test_rejects_empty_large_malformed_and_duplicate_json(self):
+        for value in ['', 'x'*32769, 'bad', '[]', '{"type":"service_account","type":"external_account"}']:
+            with patch.object(module.os, 'environ', {module.ENVIRONMENT_KEY:value}):
+                with self.assertRaises((ValueError, json.JSONDecodeError)):
+                    module.approved_credential_info()
+
     def setUp(self):
         root = Path(__file__).resolve().parents[1]
         self.schema = json.loads((root / 'config/service-schema.json').read_text(encoding='utf-8'))

@@ -6,33 +6,46 @@ No credential creation, IAM changes, sheet writes or token persistence.
 import argparse
 import json
 import os
-import stat
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CREDENTIAL = Path('/data/credentials/handyman-hermes-reader.json')
+ENVIRONMENT_KEY = 'HANDYMAN_GOOGLE_SERVICE_ACCOUNT_JSON'
 ACCOUNT = 'handyman-hermes-reader@handyman-hermes-reader.iam.gserviceaccount.com'
 SCOPE = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 SHEET = '1tqIJGOAkQnvCmu88MdBFu3vYxvOJ4gh2URxeCUsF9_Q'
 RANGE = "'ข้อมูลการบริการ'!A1:AD1"
 
 
-def credential_status(path=CREDENTIAL):
-    # Inspect metadata only. Do not resolve/read a symlink to a credential.
-    try:
-        parent = path.parent.lstat()
-        info = path.lstat()
-    except FileNotFoundError:
-        return 'CREDENTIAL_NOT_PROVISIONED'
-    except OSError:
-        return 'CREDENTIAL_METADATA_UNAVAILABLE'
-    if (not stat.S_ISDIR(parent.st_mode) or not stat.S_ISREG(info.st_mode)
-            or parent.st_uid != os.getuid() or info.st_uid != os.getuid()
-            or stat.S_IMODE(parent.st_mode) != 0o700
-            or stat.S_IMODE(info.st_mode) != 0o600):
-        return 'CREDENTIAL_STORAGE_NOT_APPROVED'
-    return 'CREDENTIAL_PRESENT_REQUIRES_APPROVED_LIVE_CHECK'
+def credential_status():
+    # Presence only; do not retrieve or parse the secret during default preflight.
+    return ('CREDENTIAL_PRESENT_REQUIRES_APPROVED_LIVE_CHECK'
+            if ENVIRONMENT_KEY in os.environ else 'CREDENTIAL_NOT_PROVISIONED')
+
+
+def approved_credential_info():
+    raw = os.environ.get(ENVIRONMENT_KEY, '')
+    if not raw or len(raw) > 32768:
+        raise ValueError('INVALID_CREDENTIAL_CONFIGURATION')
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError('INVALID_CREDENTIAL_CONFIGURATION')
+            result[key] = value
+        return result
+    info = json.loads(raw, object_pairs_hook=unique_object)
+    if (not isinstance(info, dict) or info.get('type') != 'service_account'
+            or info.get('client_email') != ACCOUNT
+            or info.get('project_id') != 'handyman-hermes-reader'
+            or info.get('token_uri') != 'https://oauth2.googleapis.com/token'
+            or info.get('universe_domain', 'googleapis.com') != 'googleapis.com'
+            or not isinstance(info.get('private_key'), str)
+            or not info['private_key'].startswith('-----BEGIN PRIVATE KEY-----')):
+        raise ValueError('INVALID_CREDENTIAL_CONFIGURATION')
+    # Only forward the approved fields. No credential-source URL or executable.
+    return {key: info[key] for key in ('type', 'client_email', 'project_id',
+                                     'token_uri', 'private_key')}
 
 
 def verify_headers(rows, schema):
@@ -58,8 +71,8 @@ def live_probe():
     from google.oauth2 import service_account
     from google.auth.transport.requests import AuthorizedSession
     from urllib.parse import quote
-    credentials = service_account.Credentials.from_service_account_file(
-        str(CREDENTIAL), scopes=[SCOPE])
+    credentials = service_account.Credentials.from_service_account_info(
+        approved_credential_info(), scopes=[SCOPE])
     if (credentials.service_account_email != ACCOUNT
             or getattr(credentials, '_subject', None) is not None
             or getattr(credentials, '_token_uri', None) != 'https://oauth2.googleapis.com/token'):
