@@ -11,6 +11,21 @@ import hermes_queries as q
 
 
 class QueryTests(unittest.TestCase):
+    def test_old_python_command_restarts_in_installed_venv_without_shell(self):
+        with patch.object(q.os, 'name', 'posix'), patch.object(q.sys, 'prefix', '/usr/local'), \
+                patch.object(q.Path, 'is_file', return_value=True), \
+                patch.object(q.os, 'execv') as execute, \
+                patch.object(q.sys, 'argv', ['hermes_queries.py', '--query', 'pending']):
+            q.ensure_query_runtime()
+        self.assertEqual(execute.call_args.args[0], '/opt/venv/bin/python3')
+        self.assertEqual(execute.call_args.args[1][-2:], ['--query', 'pending'])
+
+    def test_installed_venv_does_not_restart_in_a_loop(self):
+        with patch.object(q.os, 'name', 'posix'), patch.object(q.sys, 'prefix', '/opt/venv'), \
+                patch.object(q.os, 'execv') as execute:
+            q.ensure_query_runtime()
+        execute.assert_not_called()
+
     def test_reports_never_include_customer_notes_or_phone(self):
         rows = [{'date': '2026-09-01', 'job_status': 'ไม่จบ',
                  'job_id': 'JB20260930072756-646', 'service_revenue': '10',

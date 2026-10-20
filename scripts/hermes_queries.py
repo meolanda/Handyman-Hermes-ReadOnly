@@ -5,6 +5,7 @@ Never print records, amounts, credentials or upstream errors. No public endpoint
 import argparse
 import hashlib
 import json
+import os
 import re
 import sys
 from datetime import datetime
@@ -20,6 +21,17 @@ TAB = 'ข้อมูลการบริการ'
 RECIPIENT_FILE = Path('/data/workspace/handyman/readonly-recipient.json')
 FIELDS = {'date': 'A', 'job_status': 'R', 'service_revenue': 'AA', 'job_id': 'AD'}
 BASE = 'https://sheets.googleapis.com/v4/spreadsheets/' + SHEET
+
+
+def ensure_query_runtime():
+    """Old sessions may still invoke bare python3. Use the installed runtime.
+
+    Same identity/environment; no secret retrieval, shell or dependency install.
+    Use sys.prefix rather than resolving symlinks (venv shares the base binary).
+    """
+    executable = '/opt/venv/bin/python3'
+    if os.name == 'posix' and sys.prefix != '/opt/venv' and Path(executable).is_file():
+        os.execv(executable, [executable, os.path.abspath(__file__), *sys.argv[1:]])
 
 
 def get_json(session, url, params):
@@ -164,6 +176,7 @@ def deliver(text):
 
 
 def main():
+    ensure_query_runtime()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--query', choices=['pending', 'revenue'], required=True)
     parser.add_argument('--month')
