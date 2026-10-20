@@ -42,7 +42,7 @@ def grid_bound(get):
     return matches[0]
 
 
-def scan(get, schema):
+def scan(get, schema, *, inspect_duplicates=False):
     from urllib.parse import quote
     bound = grid_bound(get)
     header = get(BASE + '/values/' + quote("'" + TAB + "'!A1:AD1", safe=''),
@@ -79,7 +79,7 @@ def scan(get, schema):
     if grid_bound(get) != bound:
         raise AnalysisError('Source changed')
     ids = [row['job_id'].strip() for row in records if row['job_id'].strip()]
-    if len(set(ids)) != len(ids):
+    if not inspect_duplicates and len(set(ids)) != len(ids):
         raise AnalysisError('Duplicate job IDs')
     return records
 
