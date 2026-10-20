@@ -168,6 +168,7 @@ def main():
     args = parser.parse_args()
     if args.month and not re.fullmatch(r'\d{4}-(?:0[1-9]|1[0-2])', args.month):
         parser.error('Invalid month')
+    stage = 'credentials'
     try:
         from google.oauth2 import service_account
         from google.auth.transport.requests import AuthorizedSession
@@ -176,18 +177,28 @@ def main():
         if credentials.service_account_email != ACCOUNT:
             raise AnalysisError('Identity mismatch')
         schema = json.loads((ROOT / 'config/service-schema.json').read_text(encoding='utf-8'))
+        stage = 'read'
         with AuthorizedSession(credentials) as session:
             records = read_verified(lambda url, params: get_json(session, url, params), schema)
         month = args.month or datetime.now(ZoneInfo('Asia/Bangkok')).strftime('%Y-%m')
+        stage = 'report'
         text = report_text(records, args.query, month)
         if args.send:
+            stage = 'delivery'
             deliver(text)
         print(json.dumps({'status': 'SENT' if args.send else 'READ_VERIFIED',
                           'query': args.query, 'rowsChecked': len(records),
                           'matchingReads': 2, 'readonly': True}))
         return 0
-    except Exception:
-        print('{"status":"BLOCKED","reason":"QUERY_OR_DELIVERY_FAILED"}')
+    except Exception as error:
+        safe_reasons = {'Unsupported grid', 'Header changed', 'Incomplete columns',
+                        'Unexpected range', 'Invalid page', 'Source changed',
+                        'Duplicate job IDs', 'Source changed between reads',
+                        'Read failed', 'Response too large', 'Recipient configuration changed',
+                        'Recipient verification failed', 'Private recipient required',
+                        'Pinned private recipient required', 'Delivery failed; do not retry blindly'}
+        reason = str(error) if isinstance(error, AnalysisError) and str(error) in safe_reasons else 'QUERY_OR_DELIVERY_FAILED'
+        print(json.dumps({'status': 'BLOCKED', 'reason': reason, 'stage': stage}))
         return 2
 
 
